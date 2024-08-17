@@ -153,4 +153,19 @@ struct ProductService {
             }
         return updatedProduct
     }
+    
+    func deleteProduct(productId: Int) async throws {
+        guard let url = URL(string: "https://fakestoreapi.com/products/\(productId)") else {
+            throw NetworkError.invalidURL
+        }
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "DELETE"
+        
+        let (_, response) = try await URLSession.shared.data(for: request)
+                
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw NetworkError.requestFailed
+        }
+    }
 }

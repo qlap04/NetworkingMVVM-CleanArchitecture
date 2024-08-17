@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct NetworkingMVVMApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
+    @StateObject private var productViewModel = ProductViewModel(productRepository: ProductRepository(productService: ProductService()))
+        
+        var body: some Scene {
+            WindowGroup {
+                ProductListView()
+                    .environmentObject(productViewModel)
+            }
         }
-    }
 }
